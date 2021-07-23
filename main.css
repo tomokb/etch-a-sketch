@@ -1,3 +1,36 @@
-html {
+html, body {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+    font-size: 2rem;
+}
+
+#canvas {
+    min-width: 480px;
+    min-height: 480px;;
+    max-width: 480px;
+    max-height: 480px;
+    background-color: #fff;
+    border: solid #000 0.5px;
+
+    display: grid;
+    grid-template: repeat(16, 30px) / repeat(16, 30px); /* canvasSize, max-width / canvasSize */
+}
+
+#sketch-tile {
+    background-color: #ccc;
+    grid-column: 1 / 1;
+}
+
+.filled {
+    background-color: #000;
+}
+
+/* .btn {
+    
+} */
+
+/* .btn:hover {
+
+} */
