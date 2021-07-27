@@ -1,4 +1,6 @@
-const canvasSize = 16;
+const canvasMinSize = 16;
+const canvasMaxSize = 100;
+let canvasSize = canvasMinSize;
 const canvas = document.querySelector("#canvas");
 const clearButton = document.querySelector("#clear-canvas");
 const chooseColorButton = document.querySelector("#choose-color");
@@ -8,6 +10,9 @@ const colorOptions = document.querySelector("#color-options");
 
 const span1 = document.querySelectorAll(".close")[0];
 const span2 = document.querySelectorAll(".close")[1];
+
+const canvasRange = document.querySelector('input[name=canvas-range]');
+const canvasRangeLabel = document.querySelector('#canvas-size');
 
 window.onload = init;
 
@@ -27,8 +32,17 @@ function init() {
         if (e.target === colorOptions) {
             closeModal(colorOptions);
         }
-       
     });
+
+    canvasRange.addEventListener('input', updateCanvasRange);
+}
+
+function updateCanvasRange(e) {
+    const size = e.target.value;
+    if (size >= canvasMinSize && size <= canvasMaxSize) {
+        setCanvasSize(e.target.value);
+    }
+    canvasRangeLabel.textContent = `${canvasSize} x ${canvasSize}`;
 }
 
 function setCanvasSize(newSize) {
@@ -109,4 +123,19 @@ function displayOptions(optionsPanel) {
 
 function closeModal(modal) {
     modal.style.display = "none";
+}
+
+function createModal(id) {
+    const modal = document.createElement("div");
+    const modalContent = document.createElement("div");
+    const cancel = document.createElement("span");
+    span.textContent = '&times;';
+    modalContent.appendChild(cancel);
+    modal.appendChild(modalContent);
+
+    modal.setAttribute('id', id);
+    modal.setAttribute('class', 'modal');
+    modalContent.setAttribute('class', 'modal-content');
+    cancel.setAttribute('class', 'close');
+    return modal;
 }
