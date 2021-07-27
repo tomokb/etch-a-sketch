@@ -7,15 +7,29 @@
     </head>
     <body>
         <h1>Etch-A-Sketch</h1>
-        <button id="clear-canvas" class="btn">Clear</button>
-        <button id="choose-color" class="btn">Choose color</button>
-        <!--
-        <label for="canvas-range">Canvas Size: <span id="canvas-size">16 x 16</span></label>
-        <input type="range" name="canvas-range" min="16" max="100" value="16">
-        -->
+
+        <div id="settings">
+            <button id="clear-canvas" class="btn">Clear</button>
+            <div id="clear-options" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <!--
+                    <label for="canvas-range">Canvas Size: <span id="canvas-size">16 x 16</span></label>
+                    <input type="range" name="canvas-range" min="16" max="100" value="16">
+                    -->
+                </div>
+            </div>
+            
+            <button id="choose-color" class="btn">Choose color</button>
+            <div id="color-options" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                </div>
+            </div>
+        </div>
+
         <div id="canvas"></div>
-
-
+        
         <script src="main.js"></script>
     </body>
 </html>
