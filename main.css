@@ -5,6 +5,7 @@ html, body {
 
 h1 {
     font-size: 2rem;
+    margin-left: 5%;
 }
 
 #canvas {
@@ -20,8 +21,11 @@ h1 {
 }
 
 #settings {
-    margin: auto;
     margin-bottom: 5%;
+}
+
+#container {
+    margin: auto; 
     width: 50%;
 }
 
@@ -59,7 +63,7 @@ h1 {
     margin: 15% auto;
     padding: 15px;
     border: 1px solid #555;
-    width: 60%;
+    width: 50%;
     height: 30%;
 }
 
@@ -74,4 +78,20 @@ h1 {
     color: rgb(141, 185, 250);
     text-decoration: none;
     cursor: pointer;
+}
+
+.unselected {
+    color: rgb(143, 141, 141);
+}
+
+.selected {
+    color: #000;
+}
+
+.option {
+    margin: 1em;
+}
+
+#color-preview:hover {
+    border: 0.4px solid rgb(141, 185, 250); 
 }

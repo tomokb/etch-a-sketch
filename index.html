@@ -8,25 +8,43 @@
     <body>
         <h1>Etch-A-Sketch</h1>
 
-        <div id="settings">
-            <button id="clear-canvas" class="btn">Clear</button>
-            <div id="clear-options" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <label for="canvas-range">Canvas Size: <span id="canvas-size">16 x 16</span></label>
-                    <input type="number" name="canvas-range" min="16" max="100" value="16">
+        <div id="container">
+            <div id="settings">
+                <button id="new-canvas" class="btn">New canvas</button>
+                <div id="new-canvas-options" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="option">
+                            <label for="canvas-range">Canvas Size: </label>
+                            <input type="number" name="canvas-range" min="16" max="100" value="16">
+                            <span id="canvas-size">x 16</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="choose-color" class="btn">Choose color</button>
+                <div id="color-options" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="option selected">
+                            <label for="user-color">Choose a color</label>
+                            <input id="color-preview" type="color" name="color-preview" value="#000">
+                            <input type="radio" id="user-color" name="color" value="user-select" checked>
+                        </div>
+                        <div class="option unselected">
+                            <label for="randomize-color">Randomize</label>
+                            <input type="radio" id="randomize-color" name="color" value="randomize">
+                        </div>
+                        <div class="option unselected"> 
+                            <label for="monochrome-color">Monochrome</label>
+                            <input type="radio" id="monocrhome-color" name="color" value="monochrome">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <button id="choose-color" class="btn">Choose color</button>
-            <div id="color-options" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                </div>
-            </div>
+            <div id="canvas"></div>
         </div>
-
-        <div id="canvas"></div>
         
         <script src="main.js"></script>
     </body>

@@ -1,11 +1,12 @@
 const canvasMinSize = 16;
 const canvasMaxSize = 100;
+const canvasPixelWidth = 480;
 let canvasSize = canvasMinSize;
 const canvas = document.querySelector("#canvas");
-const clearButton = document.querySelector("#clear-canvas");
+const newCanvasButton = document.querySelector("#new-canvas");
 const chooseColorButton = document.querySelector("#choose-color");
 
-const clearOptions = document.querySelector("#clear-options");
+const newCanvasOptions = document.querySelector("#new-canvas-options");
 const colorOptions = document.querySelector("#color-options");
 
 const span1 = document.querySelectorAll(".close")[0];
@@ -14,50 +15,88 @@ const span2 = document.querySelectorAll(".close")[1];
 const canvasRange = document.querySelector('input[name=canvas-range]');
 const canvasRangeLabel = document.querySelector('#canvas-size');
 
+const colorOption = document.querySelector('input[name=color]');
+const colorPreview = document.querySelector('#color-preview');
+let currentColor = '#000';
+let previewColor = '#000';
+//colorPreview.style['background-color'] = `${color.value}`;
+
+// const monochrome = hsl(0, 100, 10);
 window.onload = init;
 
 function init() {
     createGrid();
-    clearButton.addEventListener('click', displayGridOptions);
+    newCanvasButton.addEventListener('click', displayNewCanvasOptions);
     chooseColorButton.addEventListener('click', displayColorOptions);
 
-    // TODO: refactor
-    span1.addEventListener('click', () => closeModal(clearOptions));
+    // TODO: refactor (decouple JS logic from HTML)
+    span1.addEventListener('click', () => closeModal(newCanvasOptions));
     span2.addEventListener('click', () => closeModal(colorOptions));
 
     window.addEventListener('click', (e) => {
-        if (e.target === clearOptions) {
-            closeModal(clearOptions);
+        if (e.target === newCanvasOptions) {
+            closeModal(newCanvasOptions);
         }
         if (e.target === colorOptions) {
             closeModal(colorOptions);
         }
     });
 
-    canvasRange.addEventListener('input', updateCanvasRange);
+    colorPreview.addEventListener('input', updatePreviewColor)
+    colorOption.addEventListener('input', updateCurrentColor);
+    canvasRange.addEventListener('input', updateCanvasRangeLabel);
 }
 
-function updateCanvasRange(e) {
-    const size = e.target.value;
-    if (size >= canvasMinSize && size <= canvasMaxSize) {
-        setCanvasSize(e.target.value);
+function updatePreviewColor(e) {
+
+}
+
+function updateCurrentColor(e) {
+    switch (e.target.value) {
+        case "user-select":
+            currentColor = colorPreview.value;
+            break;
+        case "randomize": 
+            break;
+        case "monochrome":
+            break;
     }
-    canvasRangeLabel.textContent = `${canvasSize} x ${canvasSize}`;
 }
 
-function setCanvasSize(newSize) {
-    canvasSize = newSize;
+function randomizeColor() {
+    return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+}
+
+// Each pass adds 10% black (reduces lightness by 10%)
+function monochromeColor() {
+    let lightnessPercentage = 10;
+}
+
+function updateCanvasRangeLabel(e) {
+    updateCanvasSize(e.target.value);
+    canvasRangeLabel.textContent = `x ${canvasSize}`;
+}
+
+function updateCanvasSize(newSize) {
+    // New canvas
+    if (newSize !== canvasSize && newSize >= canvasMinSize && newSize <= canvasMaxSize) {
+        canvasSize = newSize;
+        deleteGrid();
+        createGrid();
+    }
 }
 
 // Default size is 16 x 16 tiles
 function createGrid() {
-    for (let i = 0; i < canvasSize; i++) {
-        for (let j = 0; j < canvasSize; j++) {
-            const tile = document.createElement('div');
-            canvas.appendChild(tile);
-            tile.addEventListener('mouseenter', () => fillTile(tile));
-        }
+    for (let i = 0; i < canvasSize * canvasSize; i++) {
+        const tile = document.createElement('div');
+        canvas.appendChild(tile);
+        tile.addEventListener('mouseenter', () => fillTile(tile));
     }
+    // CSS
+    const tileSize = canvasPixelWidth / canvasSize;
+    canvas.style['grid-template'] = `repeat(${canvasSize}, ${tileSize}px) / repeat(${canvasSize}, ${tileSize}px)`;
+    console.log(`repeat(${canvasSize}, ${tileSize}px) / repeat(${canvasSize}, ${tileSize}px)`);
 }
 
 function deleteGrid() {
@@ -83,7 +122,7 @@ function clearCanvas() {
     const tiles = canvas.childNodes;
     for (let i = 0; i < tiles.length; i++) {
         let tile = tiles[i];
-        if (tile.classList !== undefined) { // returns undefined when tile is text and not an element
+        if (tile.classList !== undefined) { // tile.classList returns undefined when tile is text and not an element
             if (tile.classList.contains("filled")) {
                 eraseTile(tile);
             }
@@ -91,29 +130,13 @@ function clearCanvas() {
     }
 }
 
-// Options: "New canvas" and "Cancel". 
-function displayGridOptions() {
-    clearOptions.style.display = "block";
-
-    // New canvas
-    const newSize = 16;
-    if (newSize !== canvasSize) {
-        setCanvasSize(newSize);
-        deleteGrid();
-        createGrid();
-    }
+function displayNewCanvasOptions() {
+    displayOptions(newCanvasOptions);
     clearCanvas();
-    //createGrid(newSize);
-    return true;
-
-    // Cancel
-    return false;
 }
 
-// Options: "any RGB value," "randomize color," and "each pass adds 10% black." 
 function displayColorOptions() {
-    colorOptions.style.display = "block";
-    return true;
+    displayOptions(colorOptions);
 }
 
 function displayOptions(optionsPanel) {
