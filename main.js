@@ -76,10 +76,10 @@ function monochromeColor(tile) {
         lightnessPercentage = 0.9;
         tile.setAttribute('data-lightness', `${lightnessPercentage}`);
     } else if (lightnessPercentage > 0.0) {
-        tile.setAttribute('data-lightness', `${lightnessPercentage - 0.1}`);
+        lightnessPercentage -= 0.1;
+        tile.setAttribute('data-lightness', `${lightnessPercentage}`);
     }
     const tileColor = (maxLightness * lightnessPercentage).toFixed(2);
-    console.log(tileColor);
     return `rgb(${tileColor}, ${tileColor}, ${tileColor})`;
 }
 
