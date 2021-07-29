@@ -29,15 +29,6 @@ h1 {
     width: 50%;
 }
 
-#sketch-tile {
-    background-color: #ccc;
-    grid-column: 1 / 1;
-}
-
-.filled {
-    background-color: #000;
-}
-
 /* .btn {
     
 } */
@@ -78,14 +69,6 @@ h1 {
     color: rgb(141, 185, 250);
     text-decoration: none;
     cursor: pointer;
-}
-
-.unselected {
-    color: rgb(143, 141, 141);
-}
-
-.selected {
-    color: #000;
 }
 
 .option {
